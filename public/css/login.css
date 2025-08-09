@@ -1,148 +1,140 @@
-/* ===== Main container styling ===== */
+/* Dark Theme Flip Card Auth */
 body {
-  background: linear-gradient(135deg, #141824, #0a0d14);
-  font-family: 'Inter', sans-serif;
+  background-color: #0d1117;
+  font-family: 'Segoe UI', sans-serif;
   display: flex;
-  align-items: center;
   justify-content: center;
-  height: 100vh;
+  align-items: center;
+  height: 100vh !important;
   margin: 0;
-  padding: 20px;
-  color: #fff;
 }
 
-/* ===== Card-like form ===== */
-.form {
-  background: #1b1f2f;
-  padding: 45px 40px;
-  border-radius: 18px;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+.container {
+  perspective: 1000px;
+}
+
+.card-wrapper {
+  perspective: 1000px;
+  width: 350px; /* Fixed size */
+  height: 480px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.8s ease;
+  position: relative;
+
+  /* Glowing gradient border */
+  padding: 3px;
+  border-radius: 16px;
+  background: linear-gradient(270deg, #ff00cc, #3333ff, #00ffcc, #ff9900);
+  background-size: 800% 800%;
+  animation: rotateGradient 8s linear infinite;
+}
+
+.front, .back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  background-color: #161b22;
+  color: #c9d1d9;
+  padding: 30px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 22px;
-  width: 360px;
-  animation: fadeIn 0.6s ease-in-out;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.form:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-}
-
-/* ===== Title & subtitle ===== */
-.form > p {
-  font-size: 26px;
-  font-weight: 700;
-  color: #fff;
-  text-align: center;
-  margin: 0;
-}
-
-.form > p > span {
-  display: block;
-  font-size: 14px;
-  font-weight: 400;
-  color: #aaa;
-  margin-top: 6px;
-}
-
-/* ===== Separator ===== */
-.separator {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  color: #777;
-  font-size: 13px;
-}
-
-.separator > div {
-  flex: 1;
-  height: 1px;
-  background-color: #333;
-}
-
-.separator > span {
-  margin: 0 12px;
-}
-
-/* ===== Input field ===== */
-.form > input {
-  width: 100%;
-  padding: 13px 15px;
-  border-radius: 10px;
-  border: 1px solid #333;
-  background: #0f111a;
-  color: #fff;
-  font-size: 14px;
-  outline: none;
-  transition: all 0.3s ease;
-}
-
-.form > input:focus {
-  border-color: #2d8cf0;
-  background: #141824;
-  box-shadow: 0 0 8px rgba(45, 140, 240, 0.3);
-}
-
-/* ===== Login button ===== */
-.loginButton {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #2d8cf0, #1b6ec2);
-  color: #fff;
-  font-size: 15px;
-  font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.loginButton:hover {
-  background: linear-gradient(135deg, #3d9ff5, #2272c4);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(45, 140, 240, 0.4);
-}
-
-/* ===== OAuth buttons ===== */
-.oauthButton {
-  display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  font-weight: 600;
+  gap: 12px ;
+}
+
+.back {
+  transform: rotateY(180deg);
+}
+
+.card.is-flipped {
+  transform: rotateY(180deg);
+}
+
+@keyframes rotateGradient {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.card.flipped {
+  transform: rotateY(180deg);
+}
+
+h2 {
+  margin: 0;
+  color: #fff;
+}
+
+p {
+  color: #8b949e;
   font-size: 14px;
-  background-color: #0f111a;
-  border: 1px solid #333;
-  color: #ccc;
+}
+
+.oauthButton {
+  background: transparent;
+  border: 1px solid #30363d;
+  padding: 10px;
+  border-radius: 8px;
+  color: #c9d1d9;
   cursor: pointer;
   transition: all 0.3s ease;
+  gap: 12px;
 }
 
 .oauthButton:hover {
-  background-color: #161925;
-  transform: translateY(-2px);
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+  border-color: #58a6ff;
+  color: #58a6ff;
 }
 
-.icon {
-  width: 20px;
-  height: 20px;
+.separator {
+  text-align: center;
+  font-size: 12px;
+  color: #6e7681;
 }
 
-/* ===== Fade-in animation ===== */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #30363d;
+  background: #0d1117;
+  color: #c9d1d9;
+}
+
+input:focus {
+  outline: none;
+  border-color: #58a6ff;
+}
+
+.primaryBtn {
+  background-color: #238636;
+  border: none;
+  padding: 10px;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.primaryBtn:hover {
+  background-color: #2ea043;
+}
+
+.switch {
+  text-align: center;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.switch span {
+  color: #58a6ff;
 }
