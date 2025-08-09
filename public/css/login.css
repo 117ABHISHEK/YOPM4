@@ -1,0 +1,148 @@
+/* ===== Main container styling ===== */
+body {
+  background: linear-gradient(135deg, #141824, #0a0d14);
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  padding: 20px;
+  color: #fff;
+}
+
+/* ===== Card-like form ===== */
+.form {
+  background: #1b1f2f;
+  padding: 45px 40px;
+  border-radius: 18px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  width: 360px;
+  animation: fadeIn 0.6s ease-in-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+/* ===== Title & subtitle ===== */
+.form > p {
+  font-size: 26px;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  margin: 0;
+}
+
+.form > p > span {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  color: #aaa;
+  margin-top: 6px;
+}
+
+/* ===== Separator ===== */
+.separator {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  color: #777;
+  font-size: 13px;
+}
+
+.separator > div {
+  flex: 1;
+  height: 1px;
+  background-color: #333;
+}
+
+.separator > span {
+  margin: 0 12px;
+}
+
+/* ===== Input field ===== */
+.form > input {
+  width: 100%;
+  padding: 13px 15px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  background: #0f111a;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.form > input:focus {
+  border-color: #2d8cf0;
+  background: #141824;
+  box-shadow: 0 0 8px rgba(45, 140, 240, 0.3);
+}
+
+/* ===== Login button ===== */
+.loginButton {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #2d8cf0, #1b6ec2);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.loginButton:hover {
+  background: linear-gradient(135deg, #3d9ff5, #2272c4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(45, 140, 240, 0.4);
+}
+
+/* ===== OAuth buttons ===== */
+.oauthButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  background-color: #0f111a;
+  border: 1px solid #333;
+  color: #ccc;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.oauthButton:hover {
+  background-color: #161925;
+  transform: translateY(-2px);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+}
+
+/* ===== Fade-in animation ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

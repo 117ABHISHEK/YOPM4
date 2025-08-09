@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+  <div class="form">
+    <p>Your GitHub Repositories</p>
+    <ul id="repoList"></ul>
+  </div>
+
+  <script>
+    fetch('/auth/repos')
+      .then(res => res.json())
+      .then(repos => {
+        const list = document.getElementById('repoList');
+        repos.forEach(repo => {
+          const li = document.createElement('li');
+          li.textContent = repo.full_name;
+          list.appendChild(li);
+        });
+      });
+  </script>
+</body>
+</html>
