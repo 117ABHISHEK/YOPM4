@@ -1,26 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Dashboard</title>
-  <link rel="stylesheet" href="/css/dashboard.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - DevConnect</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/index.css">
 </head>
 <body>
-  <div class="form">
-    <p>Your GitHub Repositories</p>
-    <ul id="repoList"></ul>
-  </div>
+    <header>
+        <nav class="navbar navbar-expand-lg fixed-top navbar-dark" style="background-color: rgba(26, 26, 26, 0.85); backdrop-filter: blur(10px);">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold" href="/">DevConnect</a>
+                <div class="ml-auto">
+                    <a href="/auth/logout" class="btn btn-secondary">Logout</a>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-  <script>
-    fetch('/auth/repos')
-      .then(res => res.json())
-      .then(repos => {
-        const list = document.getElementById('repoList');
-        repos.forEach(repo => {
-          const li = document.createElement('li');
-          li.textContent = repo.full_name;
-          list.appendChild(li);
+    <main class="container" style="padding-top: 100px;">
+        <div class="jumbotron">
+            <h1 class="display-4" id="welcome-message">Welcome!</h1>
+            <p class="lead">You are successfully logged in. Here is your profile information from the session:</p>
+            <hr class="my-4">
+            <pre id="user-profile" class="bg-light p-3 rounded"><code>Loading...</code></pre>
+            <a class="btn btn-primary btn-lg mt-3" href="#" role="button" id="fetch-repos-btn" style="display: none;">Fetch My GitHub Repos</a>
+        </div>
+        <div id="repos-container" class="mt-4"></div>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const response = await fetch('/auth/user');
+                if (!response.ok) {
+                    window.location.href = '/'; // Redirect if not authenticated
+                    return;
+                }
+                const user = await response.json();
+
+                const welcomeMessage = document.getElementById('welcome-message');
+                const userProfile = document.getElementById('user-profile');
+                const fetchReposBtn = document.getElementById('fetch-repos-btn');
+
+                if (user && user.profile) {
+                    welcomeMessage.textContent = `Welcome, ${user.profile.displayName || user.profile.username}!`;
+                    userProfile.textContent = JSON.stringify(user, null, 2);
+
+                    if (user.profile.provider === 'github' && user.accessToken) {
+                        fetchReposBtn.style.display = 'block';
+                    }
+                }
+
+                fetchReposBtn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    const reposContainer = document.getElementById('repos-container');
+                    reposContainer.innerHTML = '<p>Loading repositories...</p>';
+                    
+                    const reposResponse = await fetch('/auth/repos');
+                    const repos = await reposResponse.json();
+                    
+                    let reposHtml = '<h2>Your Repositories</h2><ul class="list-group">';
+                    repos.forEach(repo => {
+                        reposHtml += `<li class="list-group-item"><a href="${repo.html_url}" target="_blank">${repo.name}</a></li>`;
+                    });
+                    reposHtml += '</ul>';
+                    reposContainer.innerHTML = reposHtml;
+                });
+
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+                document.getElementById('user-profile').textContent = 'Failed to load user data. You might be logged out.';
+            }
         });
-      });
-  </script>
+    </script>
 </body>
 </html>

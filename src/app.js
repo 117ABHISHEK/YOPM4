@@ -1,17 +1,18 @@
 import express from "express";
 import session from "express-session";
 import passport from "passport";
-import dotenv from "dotenv";
+import "./config/passport-setup.js"; // Centralized passport configuration
 import "./strategies/google.js";
-import "./strategies/github.js";
+import "./strategies/github.js"; // This now correctly uses a relative path
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-dotenv.config();
 const app = express();
 
 app.use(express.static("public"));
 
 app.use(session({
-  secret: process.env.SESSION_SECRET || "keyboard cat",
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false
 }));
@@ -19,12 +20,28 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Middleware to check if the user is authenticated
+const ensureAuthenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  // If not authenticated, redirect to the login page
+  res.redirect("/");
+};
+
 // Routes
 import authRoutes from "./routes/auth.js";
 app.use("/auth", authRoutes);
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 app.get("/", (req, res) => {
-  res.sendFile(process.cwd() + "/public/index.html");
+  res.sendFile(path.join(__dirname, '../../public', 'index.html'));
+});
+
+app.get("/dashboard", ensureAuthenticated, (req, res) => {
+  res.sendFile(path.join(__dirname, '../../public', 'dashboard.html'));
 });
 
 export default app;
