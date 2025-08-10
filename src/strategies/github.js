@@ -8,3 +8,5 @@ passport.use(new GitHubStrategy({
 }, (accessToken, refreshToken, profile, done) => {
   return done(null, { profile, accessToken });
 }));
+
+export default passport;
