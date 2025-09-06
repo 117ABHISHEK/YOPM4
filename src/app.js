@@ -1,7 +1,7 @@
 import express from "express";
 import session from "express-session";
 import passport from "passport";
-import "./config/passport-setup.js"; // Centralized passport configuration
+import "../passport-setup.js"; // Corrected path to the root directory
 import "./strategies/google.js";
 import "./strategies/github.js"; // This now correctly uses a relative path
 import path from 'path';
@@ -38,6 +38,10 @@ const __dirname = path.dirname(__filename);
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, '../../public', 'index.html'));
+});
+
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, '../../public', 'login.html'));
 });
 
 app.get("/dashboard", ensureAuthenticated, (req, res) => {
