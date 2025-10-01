@@ -71,7 +71,12 @@ function App() {
         setGameState((prev) => {
           if (!prev) return prev;
 
-          const newState = JSON.parse(JSON.stringify(prev)); // Deep copy
+          // More performant state update than JSON.parse(JSON.stringify())
+          const newState = {
+            ...prev,
+            paddles: { ...prev.paddles },
+            ball: { ...prev.ball },
+          };
           let { paddles, ball, score } = newState;
 
           // Paddle 1 Movement (W, S)
@@ -123,7 +128,7 @@ function App() {
 
       return () => {
         window.removeEventListener('keydown', handleKeyDown);
-        window.removeEventListener('keyup', ahandleKeyUp);
+        window.removeEventListener('keyup', handleKeyUp);
         cancelAnimationFrame(gameLoopId.current);
       };
     }
@@ -154,9 +159,6 @@ function App() {
       </div>
     );
   }
-
-  // A small fix for a typo in the cleanup function
-  const ahandleKeyUp = (e) => { keysPressedRef.current[e.key.toLowerCase()] = false; };
 
   const goBackToMenu = () => {
     setGameMode(null);
